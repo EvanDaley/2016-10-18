@@ -17,6 +17,9 @@ public class PhysicsPlayer : MonoBehaviour {
 	private float rotateCooldown;
 	private bool rotating = false;
 
+	public bool simulateHeadMovement = false;
+	public float moveSimulationSpeed = 5f;
+
 	void Start () 
 	{
 		rbody = GetComponent<Rigidbody> ();
@@ -32,30 +35,37 @@ public class PhysicsPlayer : MonoBehaviour {
 		//Vector3 newRotation = new Vector3 (0, Camera.main.transform.eulerAngles.y, 0);
 		//transform.eulerAngles = newRotation;
 
-		if (Input.GetKeyDown (KeyCode.LeftControl))
+		if (simulateHeadMovement)
 		{
 			if (Input.GetAxis ("Vertical") > .1f)
 			{
 				//print ("up");
-				SetMove (Camera.main.transform.forward);
+				//SetMove (Camera.main.transform.forward);
+				Camera.main.transform.parent.Rotate (-Vector3.right * moveSimulationSpeed);
 			}
 
 			if (Input.GetAxis ("Vertical") < -.1f)
 			{
 				//print ("down");
-				SetMove (-Camera.main.transform.forward);
+				//SetMove (-Camera.main.transform.forward);
+				Camera.main.transform.parent.Rotate (Vector3.right * moveSimulationSpeed);
+
 			}
 
 			if (Input.GetAxis ("Horizontal") > .1f)
 			{
 				//print ("right");
-				Rotate(Vector3.up);
+				//Rotate(Vector3.up);
+				Camera.main.transform.parent.Rotate (Vector3.up * moveSimulationSpeed);
+
 			}
 
 			if (Input.GetAxis ("Horizontal") < -.1f)
 			{
 				//print ("left");
-				Rotate(Vector3.down);
+				//Rotate(Vector3.down);
+				Camera.main.transform.parent.Rotate (Vector3.down * moveSimulationSpeed);
+
 			}
 		} else
 		{
